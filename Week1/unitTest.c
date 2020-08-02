@@ -16,25 +16,27 @@ void tearDown(void)
     //cleanup stuff - not required
 }
 
-void test_function_insertSort(void)
+void test_function_insertSort2(void)
 {
     int numTests = 500; // change this
-    int* sizeArray = generate_random_array(numTests); // generate random sizes for testing of array
+    int* sizeArray = malloc(numTests * sizeof(int));
+    populate_random_int_array(&sizeArray, numTests); // generate random sizes for testing of array
+
+    double** test_results;
+    alloc_results_memory(&test_results, numTests, 3); // 3 denotes number of columns
 
     clock_t start, end;
     double time_used;
 
     int* a;
+    int a_len;
     int* a_sorted;
-    int a_len; // size of array for random test
 
     char* e_msg = malloc(64); // error message in case of test fail
 
-    double** test_results;
-
     for(int i = 0; i < numTests; i++){
         a_len = sizeArray[i];
-        a = generate_random_array(a_len);
+        populate_random_int_array(&a, a_len);
 
         start = clock();
         a_sorted = insertSort(a, a_len);
@@ -47,15 +49,11 @@ void test_function_insertSort(void)
         TEST_ASSERT_TRUE_MESSAGE(is_sorted(a_sorted, a_len), e_msg);
     }
 
-    insertSort(test_results, numTests);
-    report_results(test_results);
-
-    free(e_msg);
 }
 
 int main(void)
 {
     UNITY_BEGIN();
-    RUN_TEST(test_function_insertSort);
+    RUN_TEST(test_function_insertSort2);
     return 0;
 }
