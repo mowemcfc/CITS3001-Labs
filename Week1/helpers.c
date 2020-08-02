@@ -43,7 +43,7 @@ void populate_random_int_array(int** a, int n)
     srand((unsigned) time(&t));
 
     for (int i = 0; i < n; i ++) {
-        randNum = rand() % 1000;
+        randNum = rand() % 500;
         (*a)[i] = randNum;
     }
 

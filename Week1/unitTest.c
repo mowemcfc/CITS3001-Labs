@@ -24,7 +24,7 @@ void test_function_mergeSort(void)
     mergeSort(size_array, 0, num_tests-1);
 
     int* a;
-    int a_len = 500;
+    int a_len;
 
     clock_t start, end;
     double time_used;
@@ -32,7 +32,7 @@ void test_function_mergeSort(void)
     double** test_results;
     alloc_results_memory(&test_results, num_tests, 3); // 3 denotes number of columns
 
-    char e_msg[64];
+    char e_msg[64]; // helpful error message
 
     for(int i = 0; i < num_tests; i++){
         a_len = size_array[i];
@@ -43,17 +43,16 @@ void test_function_mergeSort(void)
         end = clock();
 
         time_used = ((double) end - start) / CLOCKS_PER_SEC;
-
         record_result(&test_results, i, a_len, time_used);
 
-        sprintf(e_msg, "\nTest %d failed, exiting", i); // unity does not support printf string formatting, so pre-definition with sprintf required
+        sprintf(e_msg, "\nTest %d failed, exiting\n", i); // unity does not support printf string formatting, so pre-definition with sprintf required
         TEST_ASSERT_TRUE_MESSAGE(is_sorted(a, a_len), e_msg);
-
         free(a);
     }
 
     report_results(test_results, num_tests);
     free(test_results);
+    free(size_array);
 
     printf("\n----END MERGE SORT TEST----\n");
     return;
@@ -96,6 +95,7 @@ void test_function_insertSort(void)
 
     report_results(test_results, numTests);
     free(test_results);
+    free(sizeArray);
     printf("\n ---- END INSERT SORT TEST ----\n");
 }
 
