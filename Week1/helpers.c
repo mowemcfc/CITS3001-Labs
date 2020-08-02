@@ -4,9 +4,13 @@
 #include<stdlib.h>
 
 // Formats input result array into readable format and prints to stdout
-void report_results(double** results) 
+void report_results(double** results, int n) 
 {
-    
+    for(int i = 0; i < n; i++){
+        printf("\n Test: %d, size: %d, time: %lf", (int)results[i][0], (int)results[i][1], results[i][2]);
+    }
+
+    return;
 }
 
 // Allocates memory for test result array
@@ -15,17 +19,16 @@ void alloc_results_memory(double*** results, int rows, int cols){
     for(int i=0; i<rows; i++){
         (*results)[i] = (double*) malloc(cols * sizeof(double));
     }
+
+    return;
 }
 
 // Takes array of test results and appends new entry
-void record_result(double** results, int test_num, int n, double time)
+void record_result(double*** results, int test_num, int n, double time)
 {
-    int cur_size = test_num * (sizeof(double) * 3);
-    //realloc(results, cur_size + (sizeof(double) * 3));
-
-    double result[3] = {(double)test_num, (double) n, time}; 
-    results[cur_size] = result;
-
+    (*results)[test_num][0] = (double)test_num;
+    (*results)[test_num][1] = (double)n;
+    (*results)[test_num][2] = time;
     return;
 }
 
