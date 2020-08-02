@@ -1,3 +1,5 @@
+
+
 #include<stdbool.h>
 #include<time.h>
 #include<stdio.h>
@@ -7,7 +9,7 @@
 void report_results(double** results, int n) 
 {
     for(int i = 0; i < n; i++){
-        printf("\n Test: %d, size: %d, time: %lf", (int)results[i][0], (int)results[i][1], results[i][2]);
+        printf("\n Test: %d, size: %d, time: %lf", (int)results[i][0], (int)results[i][1], results[i][2]); // test number, array size, execution time
     }
 
     return;

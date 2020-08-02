@@ -2,7 +2,7 @@
 #include<time.h>
 
 #include "../Unity/src/unity.h"
-#include "insertSort.h"
+#include "sort.h"
 #include "helpers.h"
 
 
@@ -16,7 +16,18 @@ void tearDown(void)
     //cleanup stuff - not required
 }
 
-void test_function_insertSort2(void)
+void test_function_mergeSort(void)
+{
+    int* a;
+    int a_len = 500;
+
+    populate_random_int_array(&a, a_len);
+    mergeSort(a, 0, a_len-1);
+
+    return;
+}
+
+void test_function_insertSort(void)
 {
     int numTests = 500; // change this
     int* sizeArray = malloc(numTests * sizeof(int));
@@ -54,12 +65,13 @@ void test_function_insertSort2(void)
 
     report_results(test_results, numTests);
     free(test_results);
-    printf("\n");
+    printf("\n ---- END INSERT SORT TEST ----\n");
 }
 
 int main(void)
 {
     UNITY_BEGIN();
-    RUN_TEST(test_function_insertSort2);
+    RUN_TEST(test_function_insertSort);
+    RUN_TEST(test_function_mergeSort);
     return 0;
 }
