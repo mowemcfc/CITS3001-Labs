@@ -39,6 +39,7 @@ void test_function_naiveMatch(void)
     
     //printf("%d", matchCount);
 
+    printf("Matches at: ");
     for(int i = 0; i < matchCount; ++i) {
         printf("%d, ", result[i]);
     }
@@ -47,6 +48,34 @@ void test_function_naiveMatch(void)
     TEST_ASSERT_TRUE(1);
     return;
 }
+
+void test_function_rabinKarp(void)
+{
+    char T[] = "aabbaabbbbaaaababbbaabbababbba";
+    int n = strlen(T);
+
+    char P[] = "aab";
+    int m = strlen(P);
+
+    int q = 7;
+
+    int* result = malloc((n-m) * sizeof(int));
+    int matchCount;
+
+    matchCount = rabinKarp(T, P, q, &result);
+    
+    //printf("%d", matchCount);
+
+    printf("Matches at: ");
+    for(int i = 0; i < matchCount; ++i) {
+        printf("%d, ", result[i]);
+    }
+    printf("\n ----END RABIN-KARP TEST----\n");
+
+    TEST_ASSERT_TRUE(1);
+    return;
+}
+
 
 void test_function_mergeSort(void)
 {
@@ -137,5 +166,7 @@ int main(void)
     //RUN_TEST(test_function_insertSort);
     //RUN_TEST(test_function_mergeSort);
     RUN_TEST(test_function_naiveMatch);
+    RUN_TEST(test_function_rabinKarp);
+
     return 0;
 }
