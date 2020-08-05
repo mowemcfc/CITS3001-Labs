@@ -9,8 +9,18 @@
 void report_results(double** results, int n) 
 {
     for(int i = 0; i < n; i++){
-        printf("\n Test: %d, size: %d, time: %lf", (int)results[i][0], (int)results[i][1], results[i][2]); // test number, array size, execution time
+        printf("\n Test: %d, size: %d, time: %lf", n, (int)results[i][1], results[i][2]); // test number, array size, execution time
     }
+
+    double avg = 0;
+    double sum = 0;
+
+    for(int i =0; i < n; ++i){
+        sum+= results[i][2];
+    }
+
+    avg = sum / n;
+    printf("\nTOTAL TEST COMPLETION TIME: %lfs, AVG TEST TIME: %lfs", sum, avg);
 
     return;
 }
