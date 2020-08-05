@@ -34,6 +34,7 @@ int naive(char* T, char* P, int** result) {
 
 // Implementation of Rabin-Karp string matching algorithm
 // Credit to https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/ for pseudocode
+
 int rabinKarp(char* T, char* P, int q, int d, int** result) {
     int n = strlen(T);
     int m = strlen(P);
@@ -41,9 +42,6 @@ int rabinKarp(char* T, char* P, int q, int d, int** result) {
     int p0 = 0; // p''
     int z = 0; // z'
     int h = (int)pow(2,m-1) % q;
-
-    int pnum;
-    int znum;
 
     int matchCount = 0;
 
