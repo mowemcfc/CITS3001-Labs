@@ -32,28 +32,28 @@ int naive(char* T, char* P, int** result) {
     return matchCount;
 }
 
-int rabinKarp(char* T, char* P, int q, int** result) {
+// Implementation of Rabin-Karp string matching algorithm
+// Credit to https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/ for pseudocode
+int rabinKarp(char* T, char* P, int q, int d, int** result) {
     int n = strlen(T);
     int m = strlen(P);
 
     int p0 = 0; // p''
     int z = 0; // z'
+    int h = (int)pow(2,m-1) % q;
+
+    int pnum;
+    int znum;
 
     int matchCount = 0;
 
-    // preprocessing step for pattern conversion to hash value mod q
-    for(int j = 0; j < m-1; ++j) {
-        p0 = (p0 * 10 + (P[j] -'0')) % q; // requires conversion of char to int representation
+    // preprocessing step for initial p'', z' value assignment
+    for(int i = 0; i < m; ++i) {
+        p0 = (d * p0 + P[i]) % q; // requires conversion of char to int representation
+        z = (d * z + T[i]) % q;
     }
 
-    for(int j = 0; j < m-2; ++j) {
-        z = (z * 10 + (T[j] - '0')) % q; // get hash mod q for first substring in T
-    }
-
-    for(int s = 0; s < n-m; ++s) {
-        z = (z % (int)pow(10, m-1) * 10 + (T[s + m - 1] - '0')) % q; // rolling hash value as we 'window slide' over T
-
-        printf("s: %d, z: %d, p0: %d \n", s, z, p0);
+    for(int s = 0; s <= n-m; ++s) {
         if(z == p0) { // if hashes mod q match ...
             int j;
             for(j = 0; j < m; ++j) { // compare strings value by value, break at mismatch
@@ -64,7 +64,15 @@ int rabinKarp(char* T, char* P, int q, int** result) {
 
             if(j == m) { // if j == length of pattern, we have a match
                 (*result)[matchCount] = s;
-                matchCount++;
+                ++matchCount;
+            }
+        }
+
+        if(s < n-m) {
+            z = (d*(z-T[s]*h) + T[s+m]) % q;
+
+            if(z<0) {
+                z += q;
             }
         }
     }

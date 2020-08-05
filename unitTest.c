@@ -62,7 +62,7 @@ void test_function_rabinKarp(void)
     int* result = malloc((n-m) * sizeof(int));
     int matchCount;
 
-    matchCount = rabinKarp(T, P, q, &result);
+    matchCount = rabinKarp(T, P, q, 2, &result);
     
     //printf("%d", matchCount);
 
