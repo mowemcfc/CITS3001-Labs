@@ -2,6 +2,10 @@
 #include<stdbool.h>
 #include<string.h>
 
+
+// Naive String matching algorithm implementation
+// Credit to https://www.geeksforgeeks.org/naive-algorithm-for-pattern-searching/ for pseudocode
+
 int naive(char* T, char* P, int** result) {
     bool match;
     int matchCount = 0;
