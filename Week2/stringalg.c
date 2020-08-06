@@ -5,6 +5,7 @@
 
 // Naive String matching algorithm implementation
 // Credit to https://www.geeksforgeeks.org/naive-algorithm-for-pattern-searching/ for pseudocode
+// O(m(n - m + 1)) Worst Case complexity
 
 int naive(char* T, char* P, int** result) {
     bool match;
@@ -34,7 +35,7 @@ int naive(char* T, char* P, int** result) {
 
 // Implementation of Rabin-Karp string matching algorithm
 // Credit to https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/ for pseudocode
-
+// O(nm) Worst-Case Complexity, O(m + n) expected time
 int rabinKarp(char* T, char* P, int q, int d, int** result) {
     int n = strlen(T);
     int m = strlen(P);
@@ -67,14 +68,26 @@ int rabinKarp(char* T, char* P, int q, int d, int** result) {
         }
 
         if(s < n-m) {
-            z = (d*(z-T[s]*h) + T[s+m]) % q;
+            z = (d*(z-T[s]*h) + T[s+m]) % q; // rolling z' calculation as we 'window shift' across T
 
-            if(z<0) {
+            if(z<0) { // z' can sometimes be negative, so we can address this by adding q
                 z += q;
             }
         }
     }
 
-
     return matchCount;
+}
+
+// Implementation of Knuth-Morris-Pratt string match
+// Credit to CLRS Textbook for pseudocode
+//
+int knuthMorrisPratt(char* T, char* P) {
+
+    return 0;
+}
+
+void computePrefix(char* P) {
+
+    return;
 }

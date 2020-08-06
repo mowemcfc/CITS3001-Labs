@@ -26,24 +26,39 @@ void tearDown(void)
 
 void test_function_naiveMatch(void)
 {
-    char T[] = "aabbaabbbbaaaababbbaabbababbba";
+    int numTests = 1;
+
+    double** test_results;
+    alloc_results_memory(&test_results, numTests, 3); // 3 denotes number of columns, 1 denotes number of tests
+
+    clock_t start, end;
+    double time_taken;
+
+    char T[] = "aabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbba";
     int n = strlen(T);
 
     char P[] = "aab";
     int m = strlen(P);
 
-    int* result = malloc((n-m) * sizeof(int));
+    int* matches = malloc((n-m) * sizeof(int));
     int matchCount;
 
-    matchCount = naive(T, P, &result);
-    
-    //printf("%d", matchCount);
+    start = clock();
+    matchCount = naive(T, P, &matches);
+    end = clock();
 
-    printf("Matches at: ");
+    time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+    record_result(&test_results, numTests - 1, n, time_taken);
+
+    printf("\nMatches at: ");
     for(int i = 0; i < matchCount; ++i) {
-        printf("%d, ", result[i]);
+        printf("%d, ", matches[i]);
     }
+    report_results(test_results, numTests);
     printf("\n ----END NAIVE TEST----\n");
+
+    free(test_results);
+    free(matches);
 
     TEST_ASSERT_TRUE(1);
     return;
@@ -51,6 +66,14 @@ void test_function_naiveMatch(void)
 
 void test_function_rabinKarp(void)
 {
+    int numTests = 1;
+
+    double** test_results;
+    alloc_results_memory(&test_results, numTests, 3); // 3 denotes number of columns, 1 denotes number of tests
+
+    clock_t start, end;
+    double time_taken;
+
     char T[] = "aabbaabbbbaaaababbbaabbababbba";
     int n = strlen(T);
 
@@ -59,18 +82,26 @@ void test_function_rabinKarp(void)
 
     int q = 7;
 
-    int* result = malloc((n-m) * sizeof(int));
+    int* matches = malloc((n-m) * sizeof(int));
     int matchCount;
 
-    matchCount = rabinKarp(T, P, q, 2, &result);
-    
+    start = clock();
+    matchCount = rabinKarp(T, P, q, 2, &matches);
+    end = clock();
+
+    time_taken = ((double) end - start) / CLOCKS_PER_SEC;
+    record_result(&test_results, numTests - 1, n, time_taken);
     //printf("%d", matchCount);
 
     printf("Matches at: ");
     for(int i = 0; i < matchCount; ++i) {
-        printf("%d, ", result[i]);
+        printf("%d, ", matches[i]);
     }
+    report_results(test_results, numTests);
     printf("\n ----END RABIN-KARP TEST----\n");
+
+    free(test_results);
+    free(matches);
 
     TEST_ASSERT_TRUE(1);
     return;
