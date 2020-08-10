@@ -36,7 +36,6 @@ void test_function_naiveMatch(void)
 
     char T[] = "aabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbbaaabbaabbbbaaaababbbaabbababbba";
     int n = strlen(T);
-
     char P[] = "aab";
     int m = strlen(P);
 
@@ -76,11 +75,9 @@ void test_function_rabinKarp(void)
 
     char T[] = "aabbaabbbbaaaababbbaabbababbba";
     int n = strlen(T);
-
     char P[] = "aab";
     int m = strlen(P);
-
-    int q = 7;
+    int q = 7; // larger is better for q to reduce spurious hits
 
     int* matches = malloc((n-m) * sizeof(int));
     int matchCount;

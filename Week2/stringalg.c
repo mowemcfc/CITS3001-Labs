@@ -4,10 +4,10 @@
 #include<math.h>
 
 // Naive String matching algorithm implementation
-// Credit to https://www.geeksforgeeks.org/naive-algorithm-for-pattern-searching/ for pseudocode
+// Credit to CLRS Introduction to Algorithms textbook for pseudocode
 // O(m(n - m + 1)) Worst Case complexity
 
-int naive(char* T, char* P, int** result) {
+int naive(char* T, char* P, int** matches) {
     bool match;
     int matchCount = 0;
 
@@ -25,7 +25,7 @@ int naive(char* T, char* P, int** result) {
         }
 
         if (match == true) {
-            (*result)[matchCount] = s;
+            (*matches)[matchCount] = s;
             ++matchCount;
         }
     }
@@ -34,9 +34,9 @@ int naive(char* T, char* P, int** result) {
 }
 
 // Implementation of Rabin-Karp string matching algorithm
-// Credit to https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/ for pseudocode
+// Credit to CLRS Introduction to Algorithms textbook for pseudocode
 // O(nm) Worst-Case Complexity, O(m + n) expected time
-int rabinKarp(char* T, char* P, int q, int d, int** result) {
+int rabinKarp(char* T, char* P, int q, int d, int** matches) {
     int n = strlen(T);
     int m = strlen(P);
 
@@ -62,7 +62,7 @@ int rabinKarp(char* T, char* P, int q, int d, int** result) {
             }
 
             if(j == m) { // if j == length of pattern, we have a match
-                (*result)[matchCount] = s;
+                (*matches)[matchCount] = s;
                 ++matchCount;
             }
         }
@@ -79,15 +79,54 @@ int rabinKarp(char* T, char* P, int q, int d, int** result) {
     return matchCount;
 }
 
-// Implementation of Knuth-Morris-Pratt string match
-// Credit to CLRS Textbook for pseudocode
-//
-int knuthMorrisPratt(char* T, char* P) {
+// Pi array computation function for Knuth-Morris-Pratt string match
+int* computePrefix(char* P) {
+    int m = strlen(P);
+    int* pi = malloc(m * sizeof(int));
+    pi[0] = 0;
 
-    return 0;
+    int k = 0;
+
+    for(int q = 2; q < m; ++q) {
+        while ((k > 0) && (P[k+1] != P[q])) {
+            k = pi[k];
+
+            if(P[k+1] == P[q]) {
+                ++k;
+            }
+
+            pi[q] = k;
+        } 
+    }
+
+    return pi;
 }
 
-void computePrefix(char* P) {
+// Implementation of Knuth-Morris-Pratt string match - modelled after the Finite Automaton Matcher
+// Credit to CLRS Introduction to Algorithms textbook for pseudocode
+//
+int knuthMorrisPratt(char* T, char* P, int** matches) {
+    int n = strlen(T);
+    int m = strlen(P);
+    int* pi = computePrefix(P);
+    int q = 0;
 
-    return;
+    int matchCount = 0;
+
+    for(int i = 1; i < n-1; ++i) {
+        while ((q > 0) && (P[q + 1] != T[i])) {
+            q = pi[q];
+
+            if(P[q+1] == T[i]) {
+                ++q;
+            }
+
+            if(q == m) {
+                (*matches)[matchCount] = i - m;
+                ++matchCount;
+                q = pi[q];
+            }
+        }
+    }
+    return matchCount;
 }
