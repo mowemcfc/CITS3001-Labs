@@ -47,7 +47,6 @@ void test_function_mergeSort(void)
 
         sprintf(e_msg, "\nTest %d failed, exiting\n", i); // unity does not support printf string formatting, so pre-definition with sprintf required
         TEST_ASSERT_TRUE_MESSAGE(is_sorted(a, a_len), e_msg);
-        free(a);
     }
 
     report_results(test_results, num_tests);
