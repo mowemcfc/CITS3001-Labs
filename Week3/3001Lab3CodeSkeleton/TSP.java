@@ -43,11 +43,6 @@ public class TSP
     {
         int[] cs = NearestNeighbour.tspnn(table);   
 
-        for(int i = 0; i < cs.length; i++) {
-            System.out.print(cs[i]+ " ");
-        }
-        System.out.print("\n");
-
         double s = validate(cs);
         if (s <= 0) return new int[] {(int) s};
         else        return cs;

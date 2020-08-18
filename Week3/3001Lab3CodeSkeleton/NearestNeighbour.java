@@ -25,7 +25,6 @@ public class NearestNeighbour
      */
     public static int[] tspnn(double[][] table)
     {
-        System.out.println("START NEW TEST");
         int[] shortestTour = {};
         double shortestTourDist = Double.MAX_VALUE;
 
@@ -73,7 +72,45 @@ public class NearestNeighbour
      */
     public static int[] tsp2opt(int[] cs, double[][] table)
     {
-        // COMPLETE THIS METHOD
-        return new int[] {};
+        // for each pair of edges ((x1,x2),(y1,y2)) in a tour
+        //   dist1 = calculate sum of each edge
+        //   swap x2, y1 s.t. ((x1,y1),(y1,x2))
+        //   dist2 = calculate sum of new edges
+        //   if dist2 < dist1:
+        //     exchange edges
+        
+
+        for(int k = 0; k < 10; k++) {
+            int x1, x2, y1, y2;
+            int temp;
+            double change;
+    
+            double tempDist;
+            double shortestDist = calcTourDist(cs, table);
+            int[]cs2;
+
+            for(int i = 0; i < cs.length - 3; i++) {
+                x1 = cs[i];
+                x2 = cs[i+1];
+                for(int j = i+2; j < cs.length - 1; j++) {
+                    y1 = cs[j];
+                    y2 = cs[j+1];
+
+
+                    cs2 = cs.clone();
+                    temp = cs2[i+1];
+                    cs2[i+1] = cs2[j];
+                    cs2[j] = temp;
+                    
+                    tempDist = calcTourDist(cs2, table);
+                    if( tempDist < shortestDist) {
+                        cs = cs2.clone();
+                        shortestDist = tempDist;
+                    }
+                }
+            }
+        }
+
+        return cs;
     }
 }
