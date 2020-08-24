@@ -15,14 +15,37 @@ public class WCsolve
      */
     public static ArrayList<String> solve(String start, String target)
     {
-        // COMPLETE THIS
+
+        ArrayList<String> wordlist = Lab5.wordsList;
+
+        ArrayList<String> currentPath = new ArrayList<String>();
+        ArrayList<String> res = new ArrayList<String>();
+        res.add(start);
 
         // let d denote the number of characters by which 2 distinct words differ
 
-        // construct level of a tree with all valid words at distance d away from wc[0], starting at 1
-        // simultaneously construct a similar tree starting at wc[0], 
-        // BIDIRECTIONAL? ITERATIVE DEPTH-LIMITED?
-        //
+        // construct levels of a tree with all valid words at distance d away from start, starting at 1 moving through to d - O(b^d)
+        // perform DFS - if branch[0] = start and branch[-1] = target, return
+
+        int d = 1;
+        String curWord = start;
+
+
+        for(String word: wordlist) {
+            if (curWord.equals(word)) continue;
+
+            if (word.equals(target)) {
+                currentPath.add(target);
+                res.addAll(currentPath);
+                return res;
+            }
+
+            if (WordChess.countDifferences(curWord, word) == 1) {
+                currentPath.add(word);
+                curWord = word;
+            }
+        }
+
         return null;
     }
 }
