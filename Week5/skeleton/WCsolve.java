@@ -29,23 +29,38 @@ public class WCsolve
 
         int d = 1;
         String curWord = start;
+        int lowestDifference, bestCurrentDifference, currentDifference, nextDifference;
 
+        currentPath = new ArrayList<String>();
+        while(d < 200) {
+            for(int i = 0; i <= d; i++) {
+                lowestDifference = WordChess.countDifferences(curWord, target);
+                for(String word: wordlist) {
+                    currentDifference = WordChess.countDifferences(word, target);
+                    nextDifference = WordChess.countDifferences(curWord, word);
 
-        for(String word: wordlist) {
-            if (curWord.equals(word)) continue;
+                    if (curWord.equals(word)) continue;
 
-            if (word.equals(target)) {
-                currentPath.add(target);
-                res.addAll(currentPath);
-                return res;
+                    if (nextDifference == 1 && word.equals(target)) {
+                        currentPath.add(word);
+                        res.addAll(currentPath);
+                        return res;
+                    }
+
+                    
+                    if (nextDifference == 1 && currentDifference < lowestDifference && !currentPath.contains(word)) {
+                        currentPath.add(word);
+                        curWord = word;
+                        break;
+                    }
+                }
+
+                //TODO: ACCOUNT FOR EXHAUSTED currentDifference - 1 CHECKS, INSTEAD DO currentDifference
+                //TODO: ALTERNATIVELY UPDATE A "NEXT BEST" WORD AS LOOP ITERATES
             }
-
-            if (WordChess.countDifferences(curWord, word) == 1) {
-                currentPath.add(word);
-                curWord = word;
-            }
+            d++;
         }
 
-        return null;
+        return res;
     }
 }
