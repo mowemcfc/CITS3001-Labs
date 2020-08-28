@@ -9,58 +9,75 @@ public class WCsolve
 {
     public WCsolve(){}
 
+    public static ArrayList<String> result;
     /**
      * Solves the puzzle start -> target using breadth-first search. 
      * Returns one optimal solution. 
      */
     public static ArrayList<String> solve(String start, String target)
     {
+        result = new ArrayList<String>();
+        int d = 50;
+        BFS(start, target, d); 
+        
+        return result;
+    }
 
-        ArrayList<String> wordlist = Lab5.wordsList;
+    private static void BFSUtil(ArrayList<String> frontier, String target, int depth, int depthMax, Map<String, String> parents, Set<String> visited) {
+        ArrayList<String> newFrontier = new ArrayList<String>();
 
-        ArrayList<String> currentPath = new ArrayList<String>();
-        ArrayList<String> res = new ArrayList<String>();
-        res.add(start);
-
-        // let d denote the number of characters by which 2 distinct words differ
-
-        // construct levels of a tree with all valid words at distance d away from start, starting at 1 moving through to d - O(b^d)
-        // perform DFS - if branch[0] = start and branch[-1] = target, return
-
-        int d = 1;
-        String curWord = start;
-        int lowestDifference, bestCurrentDifference, currentDifference, nextDifference;
-
-        currentPath = new ArrayList<String>();
-        while(d < 200) {
-            for(int i = 0; i <= d; i++) {
-                lowestDifference = WordChess.countDifferences(curWord, target);
-                for(String word: wordlist) {
-                    currentDifference = WordChess.countDifferences(word, target);
-                    nextDifference = WordChess.countDifferences(curWord, word);
-
-                    if (curWord.equals(word)) continue;
-
-                    if (nextDifference == 1 && word.equals(target)) {
-                        currentPath.add(word);
-                        res.addAll(currentPath);
-                        return res;
-                    }
-
-                    
-                    if (nextDifference == 1 && currentDifference < lowestDifference && !currentPath.contains(word)) {
-                        currentPath.add(word);
-                        curWord = word;
-                        break;
-                    }
-                }
-
-                //TODO: ACCOUNT FOR EXHAUSTED currentDifference - 1 CHECKS, INSTEAD DO currentDifference
-                //TODO: ALTERNATIVELY UPDATE A "NEXT BEST" WORD AS LOOP ITERATES
-            }
-            d++;
+        if(!result.isEmpty()) {
+            return;
         }
 
-        return res;
+        if (depth == depthMax) {
+            return;
+        }
+
+        for(String word: frontier) {
+            if (WordChess.countDifferences(word, target) == 1) {
+                result.add(0, target);
+                parents.put(target, word);
+                String step = target;
+                for(int i = 0; i < depth; i++) {
+                    step = parents.get(step);
+                    result.add(0, step);
+                }
+
+                return;
+            }
+        }
+
+        for (String word: frontier) {
+            for(int i = 0; i < target.length(); i++) {
+                for(int j = 0; j < 26; j++) {
+                    char[] adjWordArray = word.toCharArray();
+                    adjWordArray[i] = (char) (65 + j);
+                    String adjWord = String.valueOf(adjWordArray);
+
+                    if(!visited.contains(adjWord) && WordChess.countDifferences(word, adjWord) == 1 && WordChess.isWord(adjWord)) {
+                        parents.put(adjWord, word);
+                        visited.add(adjWord);
+                        newFrontier.add(adjWord);
+                    }
+                }
+            }
+        }
+
+        BFSUtil(newFrontier, target, depth+1, depthMax, parents, visited);
+
+        return;
+    }
+
+    private static void BFS(String start, String target, int depthMax) {
+        ArrayList<String> frontier = new ArrayList<String>();
+        Set<String> visited = new HashSet<String>();
+        Map<String, String> parents = new HashMap<String, String>();
+
+        frontier.add(start);
+        visited.add(start);
+
+        int depth = 1;
+        BFSUtil(frontier, target, depth, depthMax, parents, visited);
     }
 }
