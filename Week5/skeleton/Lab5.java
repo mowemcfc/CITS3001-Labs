@@ -8,7 +8,7 @@ import java.util.*;
 public class Lab5
 {
     // the file of puzzles
-    private static final String puzzleFile = "Puzzles2.txt";
+    private static final String puzzleFile = "Puzzles.txt";
     // the (cut-down) file of words from Words With Friends
     private static final String wordsFile = "WWF uppercase.txt";
     

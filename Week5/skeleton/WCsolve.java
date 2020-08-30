@@ -17,22 +17,18 @@ public class WCsolve
     public static ArrayList<String> solve(String start, String target)
     {
         result = new ArrayList<String>();
-        int d = 50;
-        BFS(start, target, d); 
+        BFS(start, target); 
         
         return result;
     }
 
-    private static void BFSUtil(ArrayList<String> frontier, String target, int depth, int depthMax, Map<String, String> parents, Set<String> visited) {
+    private static void BFSUtil(ArrayList<String> frontier, String target, int depth, Map<String, String> parents, Set<String> visited) {
         ArrayList<String> newFrontier = new ArrayList<String>();
 
         if(!result.isEmpty()) {
             return;
         }
 
-        if (depth == depthMax) {
-            return;
-        }
 
         for(String word: frontier) {
             if (WordChess.countDifferences(word, target) == 1) {
@@ -64,12 +60,18 @@ public class WCsolve
             }
         }
 
-        BFSUtil(newFrontier, target, depth+1, depthMax, parents, visited);
-
+        if (newFrontier.size() == 0) {
+            return;
+        } else {
+            BFSUtil(newFrontier, target, depth+1, parents, visited); 
+        }
+        
         return;
+
+        
     }
 
-    private static void BFS(String start, String target, int depthMax) {
+    private static void BFS(String start, String target) {
         ArrayList<String> frontier = new ArrayList<String>();
         Set<String> visited = new HashSet<String>();
         Map<String, String> parents = new HashMap<String, String>();
@@ -78,6 +80,6 @@ public class WCsolve
         visited.add(start);
 
         int depth = 1;
-        BFSUtil(frontier, target, depth, depthMax, parents, visited);
+        BFSUtil(frontier, target, depth, parents, visited);
     }
 }
