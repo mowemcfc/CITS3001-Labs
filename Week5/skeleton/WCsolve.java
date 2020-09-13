@@ -29,7 +29,6 @@ public class WCsolve
             return;
         }
 
-
         for(String word: frontier) {
             if (WordChess.countDifferences(word, target) == 1) {
                 result.add(0, target);
@@ -56,6 +55,8 @@ public class WCsolve
                         visited.add(adjWord);
                         newFrontier.add(adjWord);
                     }
+
+
                 }
             }
         }

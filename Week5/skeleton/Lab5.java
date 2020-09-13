@@ -22,7 +22,6 @@ public class Lab5
      */
     public static void main(String[] args)
     {
-        long start = System.currentTimeMillis();
         for (String l : new FileIO(puzzleFile).getLines())
             // ignore blank lines and lines that start with //
             if (!l.isBlank() && l.length() >= 2 && !l.substring(0,2).equals("//"))
@@ -33,9 +32,6 @@ public class Lab5
                for (String s : wc.solve()) System.out.print(s + " ");
                System.out.println();
             }
-        
         System.out.println();
-        long end = System.currentTimeMillis();
-        System.out.println(end-start);
     }
 }
